@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crianza+</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Pantalla 1: Bienvenida -->
+  <div class="container" id="pantalla-bienvenida">
+    <h1>👋 ¡Bienvenido/a a Crianza+!</h1>
+    <p>Tu app para organizar la crianza con amor y orden.</p>
+    <button onclick="mostrarFormulario()">💜 Iniciar</button>
+  </div>
+
+  <!-- Pantalla 2: Agregar hijo -->
+  <div class="container" id="pantalla-agregar" style="display: none;">
+
+    <!-- Sección: Cuéntanos sobre tus hijos -->
+    <div id="pantalla-hijos" style="display: block;">
+      <h2>👶 Cuéntanos sobre tus hijos</h2>
+      <p>Puedes agregar uno o más hijos para comenzar a organizar su información.</p>
+
+      <!-- Botón para mostrar el formulario -->
+      <button onclick="mostrarFormularioHijo()">➕ Agregar hijo</button>
+
+      <!-- Formulario oculto al inicio -->
+      <div id="formulario-hijo" style="display: none; margin-top: 10px; transition: all 0.3s ease;">
+        <input type="text" id="nombreHijo" placeholder="Nombre del hijo/a" required />
+        <input type="date" id="fechaNacimientoHijo" required />
+        <br/>
+        <button onclick="guardarHijo()">💾 Guardar</button>
+        <button onclick="ocultarFormularioHijo()">❌ Cancelar</button>
+      </div>
+
+      <!-- Lista de hijos agregados -->
+      <ul id="listaHijos" style="margin-top: 20px;"></ul>
+    </div>
+
+    <!-- Confirmación -->
+    <div id="mensajeConfirmacion" style="color: green; margin-top: 10px;"></div>
+
+    <!-- Panel de opciones por hijo seleccionado -->
+    <div id="panelHijoSeleccionado" style="display: none; margin-top: 20px;">
+      <h3>🧒 Opciones para <span id="nombreHijoSeleccionado"></span></h3>
+      <button onclick="irANotas()">📝 Notas</button>
+      <button onclick="irASueno()">😴 Sueño</button>
+      <button onclick="irAAlimentacion()">🍽️ Alimentación</button>
+      <button onclick="irARutinas()">⏰ Rutinas</button>                               <button onclick="irASintomas()">🩺 Síntomas</button>  
+      <button onclick="irACitas()">🩺 Citas</button>
+      <button onclick="irAEventos()">🎈 Eventos</button> 
+       <button onclick="irAChecklist()">✅ Tareas</button>                  <button onclick="irAContenidoEducativo()">📚 Educativo</button>
+      <button onclick="irAForo()">💬 Foro</button>
+      <button onclick="irAPrimerasVeces()">🧸 Primeras veces</button>
+      <button onclick="irAEstadisticas()">📊 Estadísticas</button>
+       
+      <br><br>
+      <button onclick="volverAListaHijos()">⬅️ Volver a la lista</button>
+    </div>
+  </div>
+  <!-- Pantalla 3: Registro de sueño -->
+  <div class="container" id="pantalla-sueno" style="display: none;">
+    <h2>😴 Registro de sueño</h2>
+
+    <select id="selectorHijo">
+      <option disabled selected>Selecciona un hijo/a</option>
+    </select>
+
+    <label>Hora de dormir:</label>
+    <input type="time" id="horaDormir" />
+
+    <label>Hora de despertar:</label>
+    <input type="time" id="horaDespertar" />
+
+    <label>¿Se despertó en la noche?</label>
+    <select id="despertoNoche">
+      <option value="sí">Sí</option>
+      <option value="no">No</option>
+    </select>
+
+    <label>¿Pidió toma?</label>
+    <select id="pidioToma">
+      <option value="sí">Sí</option>
+      <option value="no">No</option>
+    </select>
+
+    <button onclick="guardarSueno()">🍼 Guardar sueño</button>
+    <div id="resultadoSueno"></div>
+    <button onclick="volverDesdeSueno()">⬅️ Volver</button>
+  </div>
+  <!-- Sección: Notas personalizadas -->
+  <div class="pantalla" id="notas-section" style="display: none; background-color: #FDF4FF; padding: 20px; border-radius: 12px; box-shadow: 0 0 12px rgba(150, 100, 200, 0.1); margin: 16px;">
+    <h2 style="color: #7e22ce; font-weight: bold;">📝 Notas para <span id="nombre-hijo-notas"></span></h2>
+
+    <label for="notaTexto" style="color: #6b21a8;">💬 Escribe una nota:</label><br />
+    <textarea id="notaTexto" rows="4" placeholder="Ej. Hoy dijo su primera palabra..." style="
+      width: 100%;
+      border: 1px solid #d8b4fe;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 8px;
+      background-color: #fff;
+    "></textarea><br /><br />
+
+    <button onclick="guardarNota()" style="
+      background-color: #e9d5ff;
+      color: #6b21a8;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    " onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">💌 Guardar nota</button>
+    <!-- Frase motivadora -->
+    <div id="frase-notas" style="text-align:center; margin-top: 20px; font-style: italic; color: #9333ea;">
+      💗 <em>Cada palabra escrita es un pedacito de amor que quedará en su memoria.</em> 🍼
+
+      <!-- Corazón animado al guardar -->
+        <div id="corazon-nota" style="font-size: 24px; display: none; margin-top: 10px;">💗</div>
+
+        <h3 style="color: #6b21a8;">🗂️ Notas guardadas:</h3>
+        <ul id="lista-notas" style="
+          list-style: none;
+          padding: 0;
+          margin-top: 10px;
+        "></ul>
+
+        <button onclick="volverDesdeNotas()" style="
+          margin-top: 20px;
+          background-color: #f3e8ff;
+          color: #6b21a8;
+          border: none;
+          border-radius: 8px;
+          padding: 10px 14px;
+          font-weight: bold;
+          cursor: pointer;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        ">⬅️ Volver a la lista de hijos</button>
+      </div>
+
+    </div> <"corazon animado">💜</div>
+  
+  <!-- Contenedor de Alimentación -->
+  <div id="alimentacion-section" style="display: none;">
+    <h2>Alimentación de <span id="nombre-hijo-alimentacion"></span></h2>
+
+    <button onclick="mostrarFormularioAlimentacion()">➕ Agregar registro</button>
+
+    <!-- 🌸 Sección: Alimentación -->
+    <div id="alimentacion-section" class="pantalla-seccion" style="display: none; background-color: #FFF5F8; padding: 20px; border-radius: 10px;">
+
+      <h2 style="color: #D95B96;">🍽️ Alimentación de <span id="nombre-hijo-alimentacion" style="font-weight: bold;"></span></h2>
+
+      <!-- Botón para agregar registro -->
+      <button onclick="mostrarFormularioAlimentacion()" class="boton-accion">➕ Agregar registro</button>
+
+      <!-- Formulario dinámico de alimentación -->
+      <div id="formulario-alimentacion" style="margin-top: 15px;"></div>
+
+      <!-- Lista de registros -->
+      <ul id="lista-alimentacion" class="lista-registros"></ul>
+
+      <!-- Botón para volver -->
+      <button onclick="volverDesdeAlimentacion()" class="boton-volver">⬅️ Volver</button>
+
+      <!-- Corazón animado -->
+      <div id="corazon-animado" class="corazon" style="display: none;">💗</div>
+
+    </div>
+    <!-- Sección de síntomas -->
+    <div id="sintomas-section" style="display: none;" class="pantalla">
+      <h2>🩺 Síntomas de <span id="nombre-hijo-sintomas"></span></h2>
+
+      <!-- Botón para agregar síntoma -->
+      <button class="boton-guardar" onclick="mostrarFormularioSintomas()">➕ Agregar síntoma</button>
+
+      <!-- Lista de síntomas guardados -->
+      <ul id="lista-sintomas" class="registro-lista"></ul>
+
+      <!-- Formulario dinámico -->
+      <div id="formulario-sintomas" class="form-color-suave" style="display: none;"></div>
+
+      <!-- Corazón animado -->
+      <div id="corazonSintoma" class="corazonito">💗</div>
+
+      <!-- Botón volver -->
+      <button class="boton-guardar" onclick="volverDesdeSintomas()">⬅️ Volver</button>
+    </div>
+  <!-- Sección de Primeras veces -->
+  <div id="primeras-veces-section" style="display: none;">
+    <h2>🧸 Primeras veces de <span id="nombre-hijo-primeras-veces"></span></h2>
+    <button onclick="mostrarFormularioPrimerasVeces()">➕ Agregar momento</button>
+    <ul id="lista-primeras-veces"></ul>
+    <div id="formulario-primeras-veces" style="display: none;"></div>
+    <button onclick="volverDesdePrimerasVeces()">⬅️ Volver</button>
+  </div>
+    <!-- Sección de Citas Médicas -->
+    <div id="citas-section" style="
+      display: none;
+      background-color: #F5F3FF;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px auto;
+      box-shadow: 0 4px 10px rgba(124, 58, 237, 0.15);
+      max-width: 600px;
+      font-family: 'Segoe UI', sans-serif;
+    ">
+
+      <h2 style="color: #7C3AED; text-align: center;">👩‍⚕️ Citas médicas de <span id="nombre-hijo-citas"></span></h2>
+
+      <div style="text-align: center; margin: 12px 0;">
+        <button onclick="mostrarFormularioCitas()" style="
+          background-color: #E9D5FF;
+          border: none;
+          padding: 10px 16px;
+          border-radius: 8px;
+          color: #4C1D95;
+          font-weight: bold;
+          cursor: pointer;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          transition: transform 0.2s ease;
+        " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          ➕ Agregar cita
+        </button>
+      </div>
+
+      <ul id="lista-citas" style="list-style: none; padding: 0;"></ul>
+
+      <!-- Formulario dinámico -->
+      <div id="formulario-citas" style="display: none;"></div>
+
+      <div style="text-align: center; margin-top: 20px;">
+        <button onclick="volverDesdeCitas()" style="
+          background-color: #DDD6FE;
+          color: #4C1D95;
+          border: none;
+          border-radius: 6px;
+          padding: 8px 14px;
+          cursor: pointer;
+          font-weight: bold;
+        ">⬅️ Volver</button>
+      </div>
+
+      <!-- Corazón animado al guardar -->
+      <div id="corazonCitas" style="text-align:center; font-size: 32px; display: none; margin-top: 20px;">
+        ❤️
+      </div>
+    </div>
+
+
+  <!-- Sección de Celebraciones y Eventos -->
+  <div id="eventos-section" style="
+    display: none;
+    background-color: #FEF9C3;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 16px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  ">
+    <h2 style="color: #92400E;">🎈 Celebraciones y eventos de <span id="nombre-hijo-eventos"></span></h2>
+
+    <button onclick="mostrarFormularioEventos()" style="
+      background-color: #FDE68A;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      color: #92400E;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 12px;
+    ">➕ Agregar evento</button>
+
+    <ul id="lista-eventos" style="list-style: none; padding: 0;"></ul>
+
+    <div id="formulario-eventos" style="display: none;"></div>
+    <button onclick="volverDesdeEventos()">⬅️ Volver</button>
+    <label>
+      <input type="checkbox" id="recordatorio-evento">
+      🔔 ¿Deseas recordatorio para este evento?
+    </label>
+  </div>
+  <!-- Sección de Rutinas -->
+  <div id="rutinas-section" style="display: none;">
+    <h2>⏰ Rutinas de <span id="nombre-hijo-rutinas"></span></h2>
+
+    <button onclick="mostrarFormularioRutina()">➕ Agregar rutina</button>
+
+    <!-- Lista de rutinas -->
+    <ul id="lista-rutinas"></ul>
+
+    <!-- Formulario -->
+    <div id="formulario-rutina" style="display: none;"></div>
+
+    <!-- Botón volver -->
+    <button onclick="volverDesdeRutinas()">⬅️ Volver</button>
+  </div>
+  <!-- Sección de Checklist de Tareas -->
+  <div id="checklist-section" style="display: none;">
+    <h2>📋 Tareas para <span id="nombre-hijo-checklist"></span></h2>
+
+    <button onclick="mostrarFormularioTarea()">➕ Agregar tarea</button>
+
+    <ul id="lista-tareas"></ul>
+
+    <div id="formulario-tarea" style="display: none;"></div>
+
+    <button onclick="volverDesdeChecklist()">⬅️ Volver</button>
+  </div>
+  <!-- Sección de Contenido Educativo -->
+  <div id="contenido-section" style="display: none;">
+    <h2>📚 Consejos para <span id="nombre-hijo-contenido"></span></h2>
+
+    <div id="contenedor-educativo" style="margin-top: 20px;"></div>
+
+    <button onclick="volverDesdeContenido()">⬅️ Volver</button>
+  </div>
+  <!-- Sección de Foro para mamás/papás -->
+  <div id="foro-section" style="display: none;">
+    <h2>💬 Foro de mamás y papás</h2>
+
+    <form id="formulario-foro">
+      <input type="text" id="nombreUsuarioForo" placeholder="Tu nombre (opcional)" />
+      <textarea id="mensajeForo" placeholder="Escribe tu mensaje aquí..." rows="3"></textarea>
+      <button type="submit">📨 Publicar</button>
+    </form>
+
+    <ul id="lista-foro" style="margin-top: 20px;"></ul>
+
+    <button onclick="volverDesdeForo()">⬅️ Volver</button>
+  </div>
+  <!-- Sección de Estadísticas -->
+  <div id="estadisticas-section" style="display: none;">
+    <h2>📊 Estadísticas de <span id="nombre-hijo-estadisticas"></span></h2>
+
+    <div id="bloque-estadisticas" style="margin-top: 20px;"></div>
+
+    <button onclick="volverDesdeEstadisticas()">⬅️ Volver</button>
+  </div>
+  
+  <!-- Sección: Recordatorios (unificada de citas y eventos) -->
+  <div class="pantalla" id="recordatorios-section" style="display: none;">
+    <h2>🔔 Recordatorios para <span id="nombre-hijo-recordatorios"></span></h2>
+    <ul id="lista-recordatorios"></ul>
+    <button onclick="volverAlMenu()">🔙 Volver</button>
+  </div>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+  <!-- Configuración de Firebase --> 
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAhpCBT1ElOAEJWHEL6sP04wfQqeqQNYRE",
+      authDomain: "crianzaplus-e700b.firebaseapp.com",
+      projectId: "crianzaplus-e700b",
+      storageBucket: "crianzaplus-e700b.firebasestorage.app",
+      messagingSenderId: "8987169990",
+      appId: "1:8987169990:web:ecfb035ad4c6e26de073c7",
+      databaseURL: "https://crianzaplus-e700b-default-rtdb.firebaseio.com"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+  
+  <!-- Corazón animado global -->
+  <div id="corazon-animado">💗</div>
+  
+  <!-- Script funcional -->
+  <script src="script.js"></script>
+</body>
+</html>
